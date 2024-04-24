@@ -33,10 +33,10 @@ const ExerciseList = () => {
           );
         })}
       </div>
-      <Divider orientation="left">Random Unit</Divider>
+      {/* <Divider orientation="left">Random Unit</Divider>
       <Link className="exercise-list-item random" to="/random" key={"Random"}>
         Random
-      </Link>
+      </Link> */}
     </div>
   );
 };

@@ -15,7 +15,7 @@ const ExerciseItem = ({ id, text, translate, isAllResults }) => {
     // eslint-disable-next-line no-extra-boolean-cast
 
     setPrevious(getFromlocalStorage(id));
-    
+
     if (!!value.length && !isEnter) {
       addTolocalStorage(id, value);
     }
@@ -63,17 +63,16 @@ const ExerciseItem = ({ id, text, translate, isAllResults }) => {
           </div>
         }
       />
-      {isEnter ||
-        (isAllResults && (
-          <List
-            style={{ marginTop: "20px" }}
-            size="small"
-            header={<b>Previous Translates:</b>}
-            bordered
-            dataSource={previous.reverse()}
-            renderItem={(item) => <List.Item>{item}</List.Item>}
-          />
-        ))}
+      {(isEnter || isAllResults) && (
+        <List
+          style={{ marginTop: "20px" }}
+          size="small"
+          header={<b>Previous Translates:</b>}
+          bordered
+          dataSource={previous.reverse()}
+          renderItem={(item) => <List.Item>{item}</List.Item>}
+        />
+      )}
     </Card>
   );
 };
