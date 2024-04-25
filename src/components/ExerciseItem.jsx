@@ -4,27 +4,42 @@ import { Card, Input, List } from "antd";
 const { TextArea } = Input;
 const { Meta } = Card;
 
-import { addTolocalStorage, getFromlocalStorage } from "../utils/localStorage";
+import {
+  addToLocalStorage,
+  addTolocalFromTo,
+  getFromlocalStorage,
+} from "../utils/localStorage";
 
 // eslint-disable-next-line react/prop-types
-const ExerciseItem = ({ id, text, translate, isAllResults }) => {
+const ExerciseItem = ({ id, text, translate, isAllResults, isLast, unit }) => {
   const [isEnter, setIsEnter] = useState(false);
   const [previous, setPrevious] = useState(["empty"]);
 
   const onEnter = (value) => {
     // eslint-disable-next-line no-extra-boolean-cast
 
-    setPrevious(getFromlocalStorage(id));
+    setPrevious(getFromlocalStorage(id, "FromTo"));
 
     if (!!value.length && !isEnter) {
-      addTolocalStorage(id, value);
+      addTolocalFromTo(id, value);
+    }
+
+    if (!!value.length && isLast) {
+      if (!localStorage.getItem("unitCompleted")) {
+        addToLocalStorage("unitCompleted", [unit]);
+      } else {
+        addToLocalStorage("unitCompleted", [
+          ...JSON.parse(localStorage.getItem("unitCompleted")),
+          unit,
+        ]);
+      }
     }
 
     setIsEnter(true);
   };
 
   useEffect(() => {
-    setPrevious(getFromlocalStorage(id));
+    setPrevious(getFromlocalStorage(id, "FromTo"));
   }, [isAllResults]);
 
   return (

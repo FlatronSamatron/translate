@@ -1,15 +1,12 @@
 import getDate from "./getDate";
 
-const addTolocalStorage = (id, value) => {
+const addTolocalFromTo = (id, value) => {
   const dateValue = value + " - " + getDate();
   if (!localStorage.getItem("FromTo")) {
-    localStorage.setItem(
-      "FromTo",
-      JSON.stringify([{ id, value: [dateValue] }])
-    );
+    addToLocalStorage("FromTo", [{ id, value: [dateValue] }]);
   } else {
     let local = JSON.parse(localStorage.getItem("FromTo"));
-    const getValue = getFromlocalStorage(id);
+    const getValue = getFromlocalStorage(id, "FromTo");
 
     // eslint-disable-next-line no-extra-boolean-cast
     if (!!getValue.length) {
@@ -19,21 +16,22 @@ const addTolocalStorage = (id, value) => {
         }
         return item;
       });
-      localStorage.setItem("FromTo", JSON.stringify(newValue));
+      addToLocalStorage("FromTo", newValue);
     } else {
-      localStorage.setItem(
-        "FromTo",
-        JSON.stringify([...local, { id, value: [dateValue] }])
-      );
+      addToLocalStorage("FromTo", [...local, { id, value: [dateValue] }]);
     }
   }
 };
 
-const getFromlocalStorage = (id) => {
+const addToLocalStorage = (name, value) => {
+  localStorage.setItem(name, JSON.stringify(value));
+};
+
+const getFromlocalStorage = (id, name) => {
   return (
-    JSON.parse(localStorage.getItem("FromTo"))?.find((item) => item.id === id)
+    JSON.parse(localStorage.getItem(name))?.find((item) => item.id === id)
       ?.value || []
   );
 };
 
-export { addTolocalStorage, getFromlocalStorage };
+export { addToLocalStorage, addTolocalFromTo, getFromlocalStorage };

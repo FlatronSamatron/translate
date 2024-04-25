@@ -6,10 +6,14 @@ const { Title } = Typography;
 import chunks from "../utils/chunks";
 
 const ExerciseList = () => {
+  const unitCompleted = JSON.parse(localStorage.getItem("unitCompleted"));
+
   const list = exerciseList.map((item, i) => {
+    const isCompleted = unitCompleted && unitCompleted.includes(i);
+
     return (
       <Link
-        className="exercise-list-item"
+        className={`exercise-list-item ${isCompleted ? "completed" : ""}`}
         to={`exercise/${i}`}
         key={i}
       >

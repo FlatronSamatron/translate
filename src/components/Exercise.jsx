@@ -8,22 +8,25 @@ const { Title } = Typography;
 
 const Exercise = () => {
   const { id } = useParams();
-
   const [isAllResults, setAllResults] = useState();
 
   const exercise = exerciseList[id];
-  const exerciseItems = exercise?.map(({ id, text, translate }) => {
-    return (
-      <div key={id}>
-        <ExerciseItem
-          id={id}
-          text={text}
-          translate={translate}
-          isAllResults={isAllResults}
-        />
-      </div>
-    );
-  });
+  const exerciseItems = exercise?.map(
+    ({ id: idx, text, translate }, i, arr) => {
+      return (
+        <div key={idx}>
+          <ExerciseItem
+            id={idx}
+            text={text}
+            translate={translate}
+            isAllResults={isAllResults}
+            isLast={i === arr.length - 1}
+            unit={+id}
+          />
+        </div>
+      );
+    }
+  );
 
   return (
     <div>
@@ -36,12 +39,10 @@ const Exercise = () => {
         <Link to={"/"}>
           <Button>Home</Button>
         </Link>
-        <Link to={`/exercise/${+id + 1 || 0}`}>
-          <Link to={`/exercise/${+id + 1}`}>
-            <Button disabled={+id === exerciseList.length - 1}>
-              Next Unit <ArrowRightOutlined />
-            </Button>
-          </Link>
+        <Link to={`/exercise/${+id + 1}`}>
+          <Button disabled={+id === exerciseList.length - 1}>
+            Next Unit <ArrowRightOutlined />
+          </Button>
         </Link>
       </div>
 
